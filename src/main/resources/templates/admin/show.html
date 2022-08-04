@@ -5,16 +5,25 @@
     <title>Чел</title>
 </head>
 <body>
-<a th:text="${user.getId()}">VALUER</a>
-<a th:text="${user.getName()}">VALUER</a>
-<a th:text="${user.getSurname()}">VALUER</a>
-<a th:text="${user.getAge()}">VALUER</a>
+<a th:text="${users.getId()}">VALUER</a>
+<a th:text="${users.getName()}">VALUER</a>
+<a th:text="${users.getSurname()}">VALUER</a>
+<a th:text="${users.getAge()}">VALUER</a>
+<a th:text="${users.getUsername()}">VALUER</a>
+<br>
+<label for="roleSyka">ROLE:</label>
+<div id="roleSyka" th:each="role: ${users.getRoles()}">
+    <a th:text="${role.getNameRole().substring(5)}"></a>
+</div>
 
-<a th:href="@{/user/{id}/edit(id=${user.getId()})}">Edit</a>
+<a th:href="@{/admin/{id}/edit(id=${users.getId()})}">Edit</a>
 
 
-<form th:method="DELETE" th:action="@{/user/{id}(id=${user.getId()})}">
+<form th:method="DELETE" th:action="@{/admin/{id}(id=${users.getId()})}">
     <input type="submit" value="Delete"/>
+</form>
+<form action="/logout" >
+    <button>EXIT</button>
 </form>
 </body>
 </html>

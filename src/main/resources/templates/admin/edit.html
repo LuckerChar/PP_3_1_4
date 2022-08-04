@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form th:method="PATCH" th:action="@{/user/{id}/edit(id=${user.getId()})}" th:object="${user}">
+<form th:method="PATCH" th:action="@{/admin/{id}/edit(id=${user.getId()})}" th:object="${user}">
   <label for="name">Введи Имя:</label>
   <input type="text" th:field="*{name}" id="name"/>
   <br/>
@@ -16,8 +16,21 @@
   <label for="age">Введи Возраст:</label>
   <input type="text" th:field="*{age}" id="age"/>
   <br/>
+  <label for="username">Введи Username:</label>
+  <input type="text" th:field="*{username}" id="username"/>
+  <br/>
+  <label for="password">Введи Password:</label>
+  <input type="text" th:field="*{password}" id="password"/>
+  <br/>
+  <label for="role">ROLE:</label>
+  <select size="2" id="role" multiple name="roles">
+  <option value="2"> USER </option>
+  <option value="1"> ADMIN </option>
+  </select>
   <input type="submit" value="Update!"/>
-
+</form>
+<form action="/logout" >
+  <button>EXIT</button>
 </form>
 </body>
 </html>
