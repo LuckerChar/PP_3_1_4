@@ -38,17 +38,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
     }
 
-// Третий способ с управлением
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-//        authenticationManagerBuilder.authenticationProvider(daoAuthenticationProvider());
-//    }
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {

@@ -6,12 +6,10 @@
 </head>
 <body>
 <a th:text="${users.getId()}">VALUER</a>
-<a th:text="${users.getName()}">VALUER</a>
-<a th:text="${users.getSurname()}">VALUER</a>
-<a th:text="${users.getAge()}">VALUER</a>
-<a th:text="${users.getUsername()}">VALUER</a>
+<a th:text="${users.getLogin()}">VALUER</a>
+<a th:text="${users.getEmail()}">VALUER</a>
 <br>
-<label for="roleSyka">ROLE:</label>
+<label for="">ROLE:</label>
 <div id="roleSyka" th:each="role: ${users.getRoles()}">
     <a th:text="${role.getNameRole().substring(5)}"></a>
 </div>

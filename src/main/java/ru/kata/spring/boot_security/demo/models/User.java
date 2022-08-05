@@ -12,7 +12,6 @@ import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Set;
 
-
 @Data
 @Entity
 @Table(name = "users")
@@ -47,15 +46,11 @@ public class User implements UserDetails {
         return getRoles();
     }
 
-//    @Override
-//    public String getPassword() {
-//        return this.password;
-//    }
-//
-//    @Override
-//    public String getUsername() {
-//        return this.username;
-//    }
+    @Override
+    public String getUsername() {
+        return login;
+    }
+
 
     @Override
     public boolean isAccountNonExpired() {

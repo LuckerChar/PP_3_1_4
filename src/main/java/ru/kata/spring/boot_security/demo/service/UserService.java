@@ -1,7 +1,5 @@
 package ru.kata.spring.boot_security.demo.service;
 
-
-import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 
 import java.util.List;
@@ -13,5 +11,5 @@ public interface UserService {
     User getUser(long id);
     void removeUser(long id);
     List<User> getAllUsers();
-    public Set<Role> rolesSYKA (String syka);
+
 }

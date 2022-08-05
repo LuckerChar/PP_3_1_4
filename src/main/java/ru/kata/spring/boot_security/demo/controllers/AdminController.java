@@ -5,12 +5,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
@@ -41,13 +42,14 @@ public class AdminController {
     @GetMapping("/new")
     public String addNewUser(ModelMap model) {
         model.addAttribute("users", new User());
+        model.addAttribute("roles",roleRepository.findAll());
         return "admin/new";
     }
 
     @PostMapping()
     private String createUser(@ModelAttribute("users") User user,
-                              @RequestParam(value = "roles", required = false) String roles) {
-        user.setRoles(userService.rolesSYKA(roles));
+                              @RequestParam(value = "roles", required = false) Set<Role> roles) {
+        user.setRoles(roles);
         userService.saveUser(user);
         return "redirect:/admin";
 
@@ -61,8 +63,8 @@ public class AdminController {
 
     @PatchMapping("/{id}/edit")
     public String update(@ModelAttribute("user") User user, @PathVariable("id") int id,
-                         @RequestParam(value = "roles", required = false) String roles) {
-        user.setRoles(userService.rolesSYKA(roles));
+                         @RequestParam(value = "roles", required = false) Set<Role> roles) {
+        user.setRoles(roles);
         userService.updateUser(id, user);
         return "redirect:/admin";
     }
