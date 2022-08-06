@@ -62,7 +62,7 @@ public class AdminController {
     }
 
     @PatchMapping("/{id}/edit")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") int id,
+    public String update(@ModelAttribute("user") User user, @PathVariable("id") long id,
                          @RequestParam(value = "roles", required = false) Set<Role> roles) {
         user.setRoles(roles);
         userService.updateUser(id, user);

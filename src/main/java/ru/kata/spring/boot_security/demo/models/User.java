@@ -8,9 +8,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Set;
 
@@ -22,28 +19,18 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "Name can't be empty")
-    @Size(min = 1, max = 15, message = "min 1, max 15")
     @Column(name = "firstName")
     private String firstName;
 
-    @NotEmpty(message = "Name can't be empty")
-    @Size(min = 1, max = 15, message = "min 1, max 15")
     @Column(name = "lastName")
     private String lastName;
 
-    @NotEmpty(message = "Age can't be empty")
-    @Size(min = 1, max = 3, message = "min 1, max 3")
     @Column(name = "age")
     private byte age;
 
-    @NotEmpty(message = "Mail can't be empty")
-    @Email(message = "It's not email")
     @Column(name = "email")
     private String email;
 
-    @NotEmpty(message = "Name can't be empty")
-    @Size(min = 1, max = 15, message = "min 1, max 15")
     @Column(name = "password")
     private String password;
 
