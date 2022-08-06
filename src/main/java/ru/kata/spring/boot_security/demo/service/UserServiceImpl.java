@@ -5,10 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.kata.spring.boot_security.demo.configs.WebSecurityConfig;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
@@ -19,11 +17,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
-    private WebSecurityConfig webSecurityConfig;
-    @Autowired
-    public WebSecurityConfig setWebSecurityConfig() {
-        return webSecurityConfig;
-    }
+
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
@@ -35,16 +29,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     @Override
     public void saveUser(User user) {
-        user.setPassword(setWebSecurityConfig().passwordEncoder().encode(user.getPassword()));
         userRepository.save(user);
     }
 
     @Transactional
     @Override
     public void updateUser(long id, User user) {
-        if (!user.getPassword().equals(userRepository.findById(id).get().getPassword())) {
-            user.setPassword(setWebSecurityConfig().passwordEncoder().encode(user.getPassword()));
-        }
         userRepository.save(user);
     }
 
@@ -65,8 +55,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String firstName) throws UsernameNotFoundException {
-        User user = userRepository.findByFirstName(firstName);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException("USER NF");
         }

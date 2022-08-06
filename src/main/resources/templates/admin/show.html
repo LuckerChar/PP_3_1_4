@@ -5,7 +5,7 @@
     <title>Чел</title>
 </head>
 <body>
-<table border="1"
+<table border="1">
 <tr>
     <th>Id</th>
     <th>First name</th>
@@ -23,7 +23,7 @@
     <td th:utext="${users.getAge()}">Age</td>
     <td th:utext="${users.getEmail()}">Email</td>
     <td><span th:each="roles : ${users.getRoles()}" th:utext= "${roles.toString()}+'   '">Roles</span></td>
-    <td><a th:href="@{/admin/{id}/update(id=${users.getId})}">Update</a></td>
+    <td><a th:href="@{/admin/{id}/edit(id=${users.getId})}">Update</a></td>
     <td><form th:method="DELETE" th:action="@{/admin/{id}(id=${users.getId})}"><input type="submit" value="Delete"/></form> </td>
 </tr>
 </table>

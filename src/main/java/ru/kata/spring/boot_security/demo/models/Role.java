@@ -16,6 +16,11 @@ public class Role implements GrantedAuthority {
     @Column (name ="name")
     private String name;
 
+    @Override
+    public String toString() {
+        return "Role{" + name + '\'' +
+                '}';
+    }
 
     @Override
     public String getAuthority() {

@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -19,10 +20,13 @@ public class AdminController {
     private final UserService userService;
     private final RoleRepository roleRepository;
 
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Autowired
-    public AdminController(UserService userService, RoleRepository roleRepository) {
+    public AdminController(UserService userService, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
         this.roleRepository = roleRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
 
@@ -50,6 +54,7 @@ public class AdminController {
     private String createUser(@ModelAttribute("users") User user,
                               @RequestParam(value = "roles", required = false) Set<Role> roles) {
         user.setRoles(roles);
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.saveUser(user);
         return "redirect:/admin";
 
@@ -61,9 +66,12 @@ public class AdminController {
         return "admin/edit";
     }
 
-    @PatchMapping("/{id}/edit")
+    @PatchMapping
     public String update(@ModelAttribute("user") User user, @PathVariable("id") long id,
                          @RequestParam(value = "roles", required = false) Set<Role> roles) {
+        if (!user.getPassword().equals(userService.getUser(user.getId()).getPassword())){
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        }
         user.setRoles(roles);
         userService.updateUser(id, user);
         return "redirect:/admin";

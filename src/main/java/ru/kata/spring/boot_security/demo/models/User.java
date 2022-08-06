@@ -6,12 +6,16 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import java.util.Collection;
 import java.util.Set;
 
 @Data
+@Validated
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
@@ -27,8 +31,8 @@ public class User implements UserDetails {
 
     @Column(name = "age")
     private byte age;
-
-    @Column(name = "email")
+    @Email
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "password")
@@ -48,7 +52,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return firstName;
+        return email;
     }
 
 
