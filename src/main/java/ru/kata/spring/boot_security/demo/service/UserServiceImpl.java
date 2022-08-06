@@ -13,6 +13,7 @@ import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -60,7 +61,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public Set<Role> getSetOfRoles(List<String> rolesId) {
-        List<Role> roleSet = new ArrayList<>();
+        Set<Role> roleSet = new HashSet<>();
         for (String id : rolesId) {
             roleSet.add(roleRepository.getById(Integer.parseInt(id)));
         }

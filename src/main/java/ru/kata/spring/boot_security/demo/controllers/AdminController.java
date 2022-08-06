@@ -47,9 +47,11 @@ public class AdminController {
     }
 
     @GetMapping("/new")
-    public String addNewUser(ModelMap model) {
+    public String addNewUser(ModelMap model, User user,
+                             @RequestParam("roles") List<String> role) {
         model.addAttribute("users", new User());
         model.addAttribute("roles", roleRepository.findAll());
+        user.setRoles(userService.getSetOfRoles(role));
         return "admin/new";
     }
 
@@ -60,7 +62,7 @@ public class AdminController {
 //            bindingResult.hasErrors();
 //                return "admin/new";
 //        }
-        user.setRoles((Set<Role>) userService.getSetOfRoles(role));
+        user.setRoles(userService.getSetOfRoles(role));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.saveUser(user);
         return "redirect:/admin";

@@ -25,9 +25,8 @@
   <label>Roles:
     <input type="checkbox" name="role"
            th:each="role : ${}"
-           th:text="${role.name}"
-           th:value="${role.id}"
-    />
+           th:text="${}"
+           th:value="${}"/>
   </label>
   <input type="submit" value="Update!"/>
 </form>
