@@ -7,17 +7,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-
-
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
@@ -25,10 +27,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         this.roleRepository = roleRepository;
     }
 
-
     @Transactional
     @Override
     public void saveUser(User user) {
+        if (userRepository.findByEmail(user.getEmail())!=null){
+            throw new RuntimeException();
+        }
         userRepository.save(user);
     }
 
@@ -52,6 +56,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public Set<Role> getSetOfRoles(List<String> rolesId) {
+        List<Role> roleSet = new ArrayList<>();
+        for (String id : rolesId) {
+            roleSet.add(roleRepository.getById(Integer.parseInt(id)));
+        }
+        return (Set<Role>) roleSet;
     }
 
     @Override

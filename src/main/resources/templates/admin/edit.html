@@ -22,11 +22,13 @@
   <label for="password">Введи Password:</label>
   <input type="password" th:field="*{password}" id="password"/>
   <br/>
-  <label for="role">ROLE:</label>
-  <select size="2" id="role" multiple name="roles">
-  <option value="2"> USER </option>
-  <option value="1"> ADMIN </option>
-  </select>
+  <label>Roles:
+    <input type="checkbox" name="role"
+           th:each="role : ${}"
+           th:text="${role.name}"
+           th:value="${role.id}"
+    />
+  </label>
   <input type="submit" value="Update!"/>
 </form>
 <form action="/logout" >
