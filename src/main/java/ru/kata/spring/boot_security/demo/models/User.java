@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Set;
 
@@ -31,8 +32,9 @@ public class User implements UserDetails {
 
     @Column(name = "age")
     private byte age;
-    @Email
+    @Email (message = "эта почта уже юзается!")
     @Column(name = "email", unique = true)
+    @Size(min = 3, max = 50, message = "min 3, max 50")
     private String email;
 
     @Column(name = "password")

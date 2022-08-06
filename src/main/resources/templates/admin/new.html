@@ -2,34 +2,45 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Новый User</title>
+    <title>Новый челик</title>
 </head>
 <body>
 <form th:method="POST" th:action="@{/admin}" th:object="${users}">
-    <label for="name">Введи Имя:</label>
-    <input type="text" th:field="*{firstName}" id="name"/>
-    <br/>
-    <label for="lastName">Введи Фамилию:</label>
-    <input type="text" th:field="*{lastName}" id="lastName"/>
-    <br/>
-    <label for="age">Введи Возраст:</label>
+    <label for="firstName">Введите имя:</label>
+    <input type="text" th:field="*{firstName}" id="firstName"/>
+    <br>
+    <br>
+    <label for="lastname">Введите фамилию:</label>
+    <input type="text" th:field="*{lastName}" id="lastname"/>
+    <br>
+    <br>
+    <label for="age">Введите возраст:</label>
     <input type="text" th:field="*{age}" id="age"/>
-    <br/>
-    <label for="email">Введи email:</label>
-    <input type="email" th:field="*{email}" id="email"/>
-    <br/>
-    <label for="password">Введи Пароль:</label>
-    <input required min="4" type="text" th:field="*{password}" id="password"/>
-    <br/>
-    <label for="role">ROLE:</label>
-    <select size="2" id="role" multiple name="roles">
-        <option value="2"> USER </option>
-        <option value="1"> ADMIN </option>
-    </select>
-    <input type="submit" value="Create!"/>
+    <br>
+    <br>
+    <label for="role">Введите роль:</label>
+    <input type="text" th:field="*{role}" id="role"/>
+    <br>
+    <br>
+    <label for="password">Введите почту:</label>
+    <input type="text" th:field="*{email}" id="email"/>
+    <br>
+    <br>
+    <label for="password">Введите пароль:</label>
+    <input type="text" th:field="*{password}" id="password"/>
+    <br>
+    <br>
+    <input type="submit" value="Сохранить"/>
 </form>
+<br>
+<form  th:action="@{/admin}">
+    <button type="submit">Назад</button>
+</form>
+<br>
 <form action="/logout" >
-    <button>EXIT</button>
+    <button>ВЫйти</button>
 </form>
+
+
 </body>
 </html>
