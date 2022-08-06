@@ -7,18 +7,18 @@
 <body>
 <form th:method="POST" th:action="@{/admin}" th:object="${users}">
     <label for="name">Введи Имя:</label>
-    <input type="text" th:field="*{name}" id="name"/>
+    <input type="text" th:field="*{firstName}" id="name"/>
     <br/>
-    <label for="surname">Введи Фамилию:</label>
-    <input type="text" th:field="*{surname}" id="surname"/>
+    <label for="lastName">Введи Фамилию:</label>
+    <input type="text" th:field="*{lastName}" id="lastName"/>
     <br/>
     <label for="age">Введи Возраст:</label>
     <input type="text" th:field="*{age}" id="age"/>
     <br/>
-    <label for="username">Введи Username:</label>
-    <input type="text" th:field="*{username}" id="username"/>
+    <label for="email">Введи email:</label>
+    <input type="email" th:field="*{email}" id="email"/>
     <br/>
-    <label for="password">Введи Password:</label>
+    <label for="password">Введи Пароль:</label>
     <input required min="4" type="text" th:field="*{password}" id="password"/>
     <br/>
     <label for="role">ROLE:</label>

@@ -10,7 +10,7 @@
 <br><br>
 <a href="/admin/new">Create a new user</a><br/><br/>
 <a href="/user">Page User</a><br/><br/>
-<table border="1">
+<table border="1"
     <tr>
         <th>Id</th>
         <th>First name</th>
@@ -21,8 +21,8 @@
         <th>Update</th>
         <th>Delete</th>
     </tr>
-    <tr th:each="user : ${users}">
-        <td th:utext="${user.}">id</td>
+    <tr th:each="user : ${}">
+        <td th:utext="${user}">id</td>
         <td th:utext="${user.getFirstName()}">First name</td>
         <td th:utext="${user.getLastName()}">Last name</td>
         <td th:utext="${user.getAge()}">Age</td>

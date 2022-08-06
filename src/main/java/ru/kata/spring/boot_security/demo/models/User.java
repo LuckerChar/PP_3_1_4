@@ -24,18 +24,28 @@ public class User implements UserDetails {
 
     @NotEmpty(message = "Name can't be empty")
     @Size(min = 1, max = 15, message = "min 1, max 15")
-    @Column(name = "login")
-    private String login;
+    @Column(name = "firstName")
+    private String firstName;
 
     @NotEmpty(message = "Name can't be empty")
     @Size(min = 1, max = 15, message = "min 1, max 15")
-    @Column(name = "password")
-    private String password;
+    @Column(name = "lastName")
+    private String lastName;
+
+    @NotEmpty(message = "Age can't be empty")
+    @Size(min = 1, max = 3, message = "min 1, max 3")
+    @Column(name = "age")
+    private byte age;
 
     @NotEmpty(message = "Mail can't be empty")
     @Email(message = "It's not email")
     @Column(name = "email")
     private String email;
+
+    @NotEmpty(message = "Name can't be empty")
+    @Size(min = 1, max = 15, message = "min 1, max 15")
+    @Column(name = "password")
+    private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
@@ -51,7 +61,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return login;
+        return firstName;
     }
 
 

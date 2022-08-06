@@ -5,21 +5,33 @@
     <title>Чел</title>
 </head>
 <body>
-<a th:text="${users.getId()}">VALUER</a>
-<a th:text="${users.getLogin()}">VALUER</a>
-<a th:text="${users.getEmail()}">VALUER</a>
-<br>
-<label for="">ROLE:</label>
-<div id="roleSyka" th:each="role: ${users.getRoles()}">
-    <a th:text="${role.getNameRole().substring(5)}"></a>
-</div>
+<table border="1"
+<tr>
+    <th>Id</th>
+    <th>First name</th>
+    <th>Last name</th>
+    <th>age</th>
+    <th>Email</th>
+    <th>Roles</th>
+    <th>Update</th>
+    <th>Delete</th>
+</tr>
+<tr th:each="user : ${users}">
+    <td th:utext="${users.getId()}">id</td>
+    <td th:utext="${users.getFirstName()}">First name</td>
+    <td th:utext="${users.getLastName()}">Last name</td>
+    <td th:utext="${users.getAge()}">Age</td>
+    <td th:utext="${users.getEmail()}">Email</td>
+    <td><span th:each="roles : ${users.getRoles()}" th:utext= "${roles.toString()}+'   '">Roles</span></td>
+    <td><a th:href="@{/admin/{id}/update(id=${users.getId})}">Update</a></td>
+    <td><form th:method="DELETE" th:action="@{/admin/{id}(id=${users.getId})}"><input type="submit" value="Delete"/></form> </td>
+</tr>
+</table>
+<!--<label for="roleSyka">ROLE:</label>-->
+<!--<div id="roleSyka" th:each="role: ${users.getRoles()}">-->
+<!--    <a th:text="${role.getNameRole().substring(5)}"></a>-->
+<!--</div>-->
 
-<a th:href="@{/admin/{id}/edit(id=${users.getId()})}">Edit</a>
-
-
-<form th:method="DELETE" th:action="@{/admin/{id}(id=${users.getId()})}">
-    <input type="submit" value="Delete"/>
-</form>
 <form action="/logout" >
     <button>EXIT</button>
 </form>
