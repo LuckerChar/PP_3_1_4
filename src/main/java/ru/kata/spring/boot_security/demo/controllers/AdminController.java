@@ -13,6 +13,7 @@ import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.validation.Valid;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -52,21 +53,22 @@ public class AdminController {
         return "admin/new";
     }
 
-    @PostMapping()
-    private String createUser(@ModelAttribute("users") @Valid User user, BindingResult bindingResult,
-                              @RequestParam("roles") List<String> role) {
+    @PostMapping("/new")
+    private String createUser(@ModelAttribute("users") User user,
+                              @RequestParam("roles") Set<String> role) {
 //        if (user.getEmail().equals(userService.getUser(user.getId()).getEmail())) {
 //            bindingResult.hasErrors();
 //                return "admin/new";
 //        }
-        user.setRoles(userService.getSetOfRoles(role));
+        Set<Role> roles =userService.getSetOfRoles(role);
+        user.setRoles(roles);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.saveUser(user);
         return "redirect:/admin";
 
     }
 
-    @GetMapping ("/{id}/edit")
+    @PostMapping ("/{id}/edit")
     public String edit(Model model, @PathVariable("id") Long id) {
         model.addAttribute("user", userService.getUser(id));
         return "admin/edit";
@@ -75,7 +77,7 @@ public class AdminController {
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
                          @PathVariable("id") long id,
-                         @RequestParam("roles") List<String> role) {
+                         @RequestParam("roles") Set<String> role) {
         if (user.getEmail().equals(userService.getUser(user.getId()).getEmail())) {
             if (bindingResult.hasErrors())
                 return "/{id}/edit";
@@ -83,7 +85,7 @@ public class AdminController {
         if (!user.getPassword().equals(userService.getUser(user.getId()).getPassword())) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         }
-        user.setRoles((Set<Role>) userService.getSetOfRoles(role));
+        user.setRoles(userService.getSetOfRoles(role));
         userService.updateUser(id, user);
         return "redirect:/admin";
     }

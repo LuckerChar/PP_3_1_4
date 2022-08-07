@@ -59,10 +59,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Set<Role> getSetOfRoles(List<String> rolesId) {
+    public Set<Role> getSetOfRoles(Set<String> rolesId) {
         Set<Role> roleSet = new HashSet<>();
         for (String id : rolesId) {
-            roleSet.add(roleRepository.getById(Integer.parseInt(id)));
+            roleSet.add(roleRepository.getById(Long.parseLong(id)));
         }
         return roleSet;
     }
