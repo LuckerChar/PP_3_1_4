@@ -46,11 +46,9 @@ public class AdminController {
     }
 
     @GetMapping("/new")
-    public String addNewUser(ModelMap model, User user,
-                             @RequestParam("roles") List<String> role) {
+    public String addNewUser(ModelMap model, User user) {
         model.addAttribute("users", new User());
         model.addAttribute("roles", roleRepository.findAll());
-        user.setRoles(userService.getSetOfRoles(role));
         return "admin/new";
     }
 
@@ -68,7 +66,7 @@ public class AdminController {
 
     }
 
-    @GetMapping("/{id}/edit")
+    @GetMapping ("/{id}/edit")
     public String edit(Model model, @PathVariable("id") Long id) {
         model.addAttribute("user", userService.getUser(id));
         return "admin/edit";
