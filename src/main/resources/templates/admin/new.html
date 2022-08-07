@@ -23,7 +23,7 @@
     <input required min="4" type="password" th:field="*{password}" id="password"/>
     <br/>
     <label>Roles:
-        <input type="checkbox" name="roles"
+        <input type="checkbox" name="roles" th:field="*{roles}" th:value="${users.getRoles()}"
                th:each="role : ${roles}"
                th:text="${role.name}"
         />
