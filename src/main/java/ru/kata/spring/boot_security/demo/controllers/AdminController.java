@@ -68,24 +68,26 @@ public class AdminController {
 
     }
 
-    @PostMapping ("/{id}/edit")
+    @GetMapping ("/{id}/edit")
     public String edit(Model model, @PathVariable("id") Long id) {
+        model.addAttribute("roles", roleRepository.findAll());
         model.addAttribute("user", userService.getUser(id));
         return "admin/edit";
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+    public String update(@ModelAttribute("user") User user,
                          @PathVariable("id") long id,
                          @RequestParam("roles") Set<String> role) {
-        if (user.getEmail().equals(userService.getUser(user.getId()).getEmail())) {
-            if (bindingResult.hasErrors())
-                return "/{id}/edit";
-        }
+//        if (user.getEmail().equals(userService.getUser(user.getId()).getEmail())) {
+//            if (bindingResult.hasErrors())
+//                return "/{id}/edit";
+//        }
         if (!user.getPassword().equals(userService.getUser(user.getId()).getPassword())) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         }
-        user.setRoles(userService.getSetOfRoles(role));
+        Set<Role> roles =userService.getSetOfRoles(role);
+        user.setRoles(roles);
         userService.updateUser(id, user);
         return "redirect:/admin";
     }
