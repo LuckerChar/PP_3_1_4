@@ -21,6 +21,7 @@
     <label for="password">Введи Password:</label>
     <input type="password" th:field="*{password}" id="password"/>
     <br/>
+    <br/>
     <label>Role:
         <input type="checkbox" name="roleList"
                th:each="role : ${roles}"
