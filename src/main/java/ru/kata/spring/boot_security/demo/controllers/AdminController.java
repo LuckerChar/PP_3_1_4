@@ -68,7 +68,7 @@ public class AdminController {
         return "admin/edit";
     }
 
-    @PatchMapping("/{id}")
+    @PostMapping("/{id}")
     public String update(@ModelAttribute("user") User user,
                          @PathVariable("id") long id,
                          @RequestParam("roleList") List<String> role) {
@@ -76,6 +76,7 @@ public class AdminController {
 //            if (bindingResult.hasErrors())
 //                return "/{id}/edit";
 //        }
+        System.out.println("BEGIN");
         if (!user.getPassword().equals(userService.getUser(user.getId()).getPassword())) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         }

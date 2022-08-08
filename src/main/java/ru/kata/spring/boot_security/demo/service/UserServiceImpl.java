@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new RuntimeException();
         }
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
     }
 
     @Override
