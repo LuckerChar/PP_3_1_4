@@ -9,10 +9,6 @@ import java.util.Collection;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
-    default Collection<Role> getRoleList() {
-        return this.findAll();
-    }
-
     default Role getRoleById(long id) {
         return this.getById(id);
     }

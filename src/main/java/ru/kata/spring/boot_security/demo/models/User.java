@@ -12,12 +12,11 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.util.Collection;
-import java.util.Set;
 
 @Data
 @Validated
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +30,7 @@ public class User implements UserDetails {
 
     @Column(name = "age")
     private byte age;
+
     @Email (message = "эта почта уже юзается!")
     @Column(name = "email", unique = true)
     @Size(min = 3, max = 50, message = "min 3, max 50")
