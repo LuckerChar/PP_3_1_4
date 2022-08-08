@@ -1,6 +1,8 @@
 package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,7 +29,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     @Override
     public void saveUser(User user) {
-        if (userRepository.findByEmail(user.getEmail())!=null){
+        if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new RuntimeException();
         }
         userRepository.save(user);
@@ -36,6 +38,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     @Override
     public void updateUser(long id, User user) {
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            throw new RuntimeException();
+        }
         userRepository.save(user);
     }
 
@@ -65,6 +70,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return roleSet;
     }
 
+    @Override
+    @Transactional
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -74,5 +84,4 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         return user;
     }
-
 }

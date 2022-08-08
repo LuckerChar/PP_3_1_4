@@ -5,25 +5,23 @@
     <title>Чел</title>
 </head>
 <body>
-<table border="1"
-<tr>
-    <th>Id</th>
-    <th>First name</th>
-    <th>Last name</th>
-    <th>age</th>
-    <th>Email</th>
-    <th>Roles</th>
-    <th>Update</th>
-    <th>Delete</th>
-</tr>
-<tr th:each="user : ${user}">
-    <td th:utext="${user.getId()}">id</td>
-    <td th:utext="${user.getFirstName()}">First name</td>
-    <td th:utext="${user.getLastName()}">Last name</td>
-    <td th:utext="${user.getAge()}">Age</td>
-    <td th:utext="${user.getEmail()}">Email</td>
-    <td><span th:each="roles : ${user.getRoles()}" th:utext= "${roles.toString()}+'   '">Roles</span></td>
-</tr>
+<table border="1">
+    <tr>
+        <th>Id</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>age name</th>
+        <th>Email</th>
+        <th>Role</th>
+    </tr>
+    <tr th:object="${user}">
+        <td th:utext="${user.getId()}">id</td>
+        <td th:utext="${user.getFirstName()}">First name</td>
+        <td th:utext="${user.lastName}">Last name</td>
+        <td th:utext="${user.age}">Age</td>
+        <td th:utext="${user.email}">Email</td>
+        <td><span th:each="roles : ${user.roles}" th:utext= "${roles.toString()}+'  '">Roles</span></td>
+    </tr>
 </table>
 
 
