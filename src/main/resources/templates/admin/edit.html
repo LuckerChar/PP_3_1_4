@@ -25,7 +25,7 @@
         <input type="checkbox" name="roles" th:field="*{roles}" th:value="${user.getRoles()}"
                th:each="role : ${roles}"
                th:text="${role.getName()}"
-               th:value="${role.id}"
+               th:value="${role.getId()}"
         />
     </label>
     <input type="submit" value="Update!"/>
