@@ -11,9 +11,7 @@ import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -57,14 +55,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findAll();
     }
 
+
     @Override
-    public Set<Role> getSetOfRoles(Set<String> rolesId) {
-        Set<Role> roleSet = new HashSet<>();
+    public List<Role> getSetOfRoles(List<String> rolesId) {
+        List<Role> roleSet = new ArrayList<>();
         for (String id : rolesId) {
-            roleSet.add(roleRepository.getById(Long.parseLong(id)));
+            roleSet.add(roleRepository.getRoleById(Long.parseLong(id)));
         }
         return roleSet;
     }
+
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

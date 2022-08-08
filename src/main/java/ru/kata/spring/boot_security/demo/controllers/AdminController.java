@@ -55,16 +55,16 @@ public class AdminController {
 
     @PostMapping("/new")
     private String createUser(@ModelAttribute("users") User user,
-                              @RequestParam("roles") Set<String> role) {
+                              @RequestParam("roles") List<String> role) {
 //        if (user.getEmail().equals(userService.getUser(user.getId()).getEmail())) {
 //            bindingResult.hasErrors();
 //                return "admin/new";
 //        }
-        Set<Role> roles =userService.getSetOfRoles(role);
+        List<Role> roles =userService.getSetOfRoles(role);
         user.setRoles(roles);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.saveUser(user);
-        return "redirect:/show";
+        return "redirect:/admin";
 
     }
 
@@ -78,7 +78,7 @@ public class AdminController {
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") User user,
                          @PathVariable("id") long id,
-                         @RequestParam("roles") Set<String> role) {
+                         @RequestParam("roles") List<String> role) {
 //        if (user.getEmail().equals(userService.getUser(user.getId()).getEmail())) {
 //            if (bindingResult.hasErrors())
 //                return "/{id}/edit";
@@ -86,10 +86,10 @@ public class AdminController {
         if (!user.getPassword().equals(userService.getUser(user.getId()).getPassword())) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         }
-        Set<Role> roles =userService.getSetOfRoles(role);
+        List<Role> roles =userService.getSetOfRoles(role);
         user.setRoles(roles);
         userService.updateUser(id, user);
-        return "redirect:/show";
+        return "redirect:/admin";
     }
 
     @DeleteMapping("/{id}")
