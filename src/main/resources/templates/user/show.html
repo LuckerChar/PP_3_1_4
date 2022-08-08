@@ -16,15 +16,13 @@
     <th>Update</th>
     <th>Delete</th>
 </tr>
-<tr th:each="user : ${authUser}">
-    <td th:utext="${authUser.getId()}">id</td>
-    <td th:utext="${authUser.getFirstName()}">First name</td>
-    <td th:utext="${authUser.getLastName()}">Last name</td>
-    <td th:utext="${authUser.getAge()}">Age</td>
-    <td th:utext="${authUser.getEmail()}">Email</td>
-    <td><span th:each="roles : ${authUser.getRoles()}" th:utext= "${roles.toString()}+'   '">Roles</span></td>
-    <td><a th:href="@{/admin/{id}/update(id=${authUser.getId})}">Update</a></td>
-    <td><form th:method="DELETE" th:action="@{/admin/{id}(id=${authUser.getId})}"><input type="submit" value="Delete"/></form> </td>
+<tr th:each="user : ${user}">
+    <td th:utext="${user.getId()}">id</td>
+    <td th:utext="${user.getFirstName()}">First name</td>
+    <td th:utext="${user.getLastName()}">Last name</td>
+    <td th:utext="${user.getAge()}">Age</td>
+    <td th:utext="${user.getEmail()}">Email</td>
+    <td><span th:each="roles : ${user.getRoles()}" th:utext= "${roles.toString()}+'   '">Roles</span></td>
 </tr>
 </table>
 

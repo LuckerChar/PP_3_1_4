@@ -17,15 +17,16 @@
     <br/>
     <label for="email">Введи email:</label>
     <input type="text" th:field="*{email}" id="email"/>
-    <!--    <div th:if="${users.email.equals()}"                            >Email Check</div>-->
+    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name error</div>
     <br/>
     <label for="password">Введи Пароль:</label>
     <input required min="4" type="password" th:field="*{password}" id="password"/>
     <br/>
     <label>Roles:
-        <input type="checkbox" name="roles" th:field="*{roles}" th:value="${users.getRoles()}"
+        <input type="checkbox" name="roles" th:field="*{roles}"
                th:each="role : ${roles}"
                th:text="${role.name}"
+               th:value="${role.id}"
         />
     </label>
     <input type="submit" value="Create!"/>

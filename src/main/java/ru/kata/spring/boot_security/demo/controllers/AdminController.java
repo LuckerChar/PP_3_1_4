@@ -64,7 +64,7 @@ public class AdminController {
         user.setRoles(roles);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userService.saveUser(user);
-        return "redirect:/admin";
+        return "redirect:/show";
 
     }
 
@@ -89,7 +89,7 @@ public class AdminController {
         Set<Role> roles =userService.getSetOfRoles(role);
         user.setRoles(roles);
         userService.updateUser(id, user);
-        return "redirect:/admin";
+        return "redirect:/show";
     }
 
     @DeleteMapping("/{id}")
