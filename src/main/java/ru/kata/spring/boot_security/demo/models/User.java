@@ -15,6 +15,7 @@ import java.util.Collection;
 
 @Data
 @Validated
+@Builder
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 public class User implements UserDetails {

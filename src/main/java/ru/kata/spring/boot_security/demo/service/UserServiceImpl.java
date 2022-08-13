@@ -37,16 +37,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Transactional
     @Override
-    public void updateUser(long id, User user) {
-        if (userRepository.findByEmail(user.getEmail()) != null) {
-            throw new RuntimeException();
-        }
-        userRepository.saveAndFlush(user);
+    public void updateUser(User user) {
+        userRepository.save(user);
     }
 
     @Override
     public User getUser(long id) {
-        return userRepository.findById(id).get();
+        User user = null;
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            user = optionalUser.get();
+        }
+        return user;
     }
 
     @Transactional

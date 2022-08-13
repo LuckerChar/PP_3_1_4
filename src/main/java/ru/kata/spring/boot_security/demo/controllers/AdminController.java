@@ -81,7 +81,7 @@ public class AdminController {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         }
         user.setRoles(userService.getSetOfRoles(role));
-        userService.updateUser(id, user);
+        userService.updateUser(user);
         return "redirect:/admin";
     }
 
