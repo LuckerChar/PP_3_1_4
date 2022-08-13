@@ -1,96 +1,61 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
-import java.util.List;
+import java.util.Collections;
+
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
     private final UserService userService;
-    private final RoleRepository roleRepository;
-
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public AdminController(UserService userService, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public AdminController(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
-        this.roleRepository = roleRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
 
-    @GetMapping()
-    public String showAll(ModelMap model) {
-        List<User> users = userService.getAllUsers();
-        model.addAttribute("users", users);
-        return "admin/showall";
+    @GetMapping("")
+    public String showAllUsers(Model model, @AuthenticationPrincipal User currentUser) {
+        User newUser = new User();
+        model.addAttribute("allUs", userService.getAllUsers());
+        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("rolesList", userService.getSetOfRoles());
+        model.addAttribute("newUser", newUser);
+        return "all_users";
     }
 
-    @GetMapping("/{id}")
-    public String info(@PathVariable("id") Long id, ModelMap model) {
-        model.addAttribute("users", userService.getUser(id));
-        return "admin/show";
-    }
-
-    @GetMapping("/new")
-    public String addNewUser(ModelMap model, User user) {
-        model.addAttribute("users", new User());
-        model.addAttribute("roles", roleRepository.findAll());
-        return "admin/new";
-    }
-
-    @PostMapping("/new")
-    private String createUser(@ModelAttribute("users") User user,
-                              @RequestParam("roles") List<String> role) {
-        List<Role> roles = userService.getSetOfRoles(role);
-        user.setRoles(roles);
+    @PostMapping("/create")
+    public String createUser(@ModelAttribute("newUser") User user, @RequestParam(value = "role") String role) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setRoles(userService.getSetOfRoles(Collections.singletonList(role)));
         userService.saveUser(user);
         return "redirect:/admin";
-
     }
 
-    @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("roles", roleRepository.findAll());
-        model.addAttribute("user", userService.getUser(id));
-        return "admin/edit";
-    }
-
-    @PostMapping("/{id}")
-    public String update(@ModelAttribute("user") User user,
-                         @PathVariable("id") long id,
-                         @RequestParam("roleList") List<String> role) {
-//        if (user.getEmail().equals(userService.getUser(user.getId()).getEmail())) {
-//            if (bindingResult.hasErrors())
-//                return "/{id}/edit";
-//        }
-        System.out.println("BEGIN");
-        if (!user.getPassword().equals(userService.getUser(user.getId()).getPassword())) {
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        }
-        user.setRoles(userService.getSetOfRoles(role));
+    @PostMapping("/update")
+    public String updateUser(@ModelAttribute("user") User user, @RequestParam(value = "role") String role) {
+        user.setRoles(userService.getSetOfRoles(Collections.singletonList(role)));
         userService.updateUser(user);
         return "redirect:/admin";
     }
 
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") Long id) {
+    @DeleteMapping("/delete/{id}")
+    public String deleteUser(@PathVariable("id") Long id) {
         userService.removeUser(id);
         return "redirect:/admin";
-
     }
-
 }
 

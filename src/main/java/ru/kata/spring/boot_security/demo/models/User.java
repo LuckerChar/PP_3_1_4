@@ -13,9 +13,10 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 
-@Data
-@Validated
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
+@Data
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 public class User implements UserDetails {
