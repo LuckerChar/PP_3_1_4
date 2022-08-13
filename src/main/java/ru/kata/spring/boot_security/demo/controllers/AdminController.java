@@ -12,6 +12,7 @@ import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.util.Collections;
+import java.util.List;
 
 
 @Controller
@@ -28,17 +29,17 @@ public class AdminController {
 
 
     @GetMapping("")
-    public String showAllUsers(Model model, @AuthenticationPrincipal User currentUser) {
+    public String showAllUsers(Model model, @AuthenticationPrincipal User currentUser, List<String> role) {
         User newUser = new User();
         model.addAttribute("allUs", userService.getAllUsers());
         model.addAttribute("currentUser", currentUser);
-        model.addAttribute("rolesList", userService.getSetOfRoles());
+        model.addAttribute("rolesList", userService.getSetOfRoles(role));
         model.addAttribute("newUser", newUser);
         return "all_users";
     }
 
     @PostMapping("/create")
-    public String createUser(@ModelAttribute("newUser") User user, @RequestParam(value = "role") String role) {
+    public String createUser(@ModelAttribute("newUser") User user, @RequestParam(value = "role") List<String> role) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles(userService.getSetOfRoles(Collections.singletonList(role)));
         userService.saveUser(user);
@@ -46,7 +47,7 @@ public class AdminController {
     }
 
     @PostMapping("/update")
-    public String updateUser(@ModelAttribute("user") User user, @RequestParam(value = "role") String role) {
+    public String updateUser(@ModelAttribute("user") User user, @RequestParam(value = "role") List<String> role) {
         user.setRoles(userService.getSetOfRoles(Collections.singletonList(role)));
         userService.updateUser(user);
         return "redirect:/admin";

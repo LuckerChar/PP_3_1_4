@@ -62,14 +62,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findAll();
     }
 
+    public List<Role> getAllRoles() {
+        return roleRepository.findAll();
+    }
+
 
     @Override
-    public List<Role> getSetOfRoles(List<String> rolesId) {
-        List<Role> roleSet = new ArrayList<>();
-        for (String id : rolesId) {
-            roleSet.add(roleRepository.getRoleById(Long.parseLong(id)));
+    public List<Role> getSetOfRoles(List<String> roleName) {
+        List<Role> roles = new ArrayList<>();
+        for (Role role : getAllRoles()) {
+            if (roleName.contains(role.getName()))
+                roles.add(role);
         }
-        return roleSet;
+        return roles;
     }
 
     @Override
