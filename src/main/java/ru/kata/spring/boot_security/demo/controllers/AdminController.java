@@ -8,10 +8,8 @@ import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.models.User;
-import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
-import java.util.Collections;
 import java.util.List;
 
 
@@ -35,7 +33,7 @@ public class AdminController {
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("rolesList", userService.getSetOfRoles(role));
         model.addAttribute("newUser", newUser);
-        return "all_users";
+        return "admin/all_users";
     }
 
     @PostMapping("/create")

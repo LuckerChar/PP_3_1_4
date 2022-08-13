@@ -14,7 +14,7 @@ import java.security.Principal;
 public class UserController {
 
     private final UserService userService;
-
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -25,6 +25,6 @@ public class UserController {
         model.addAttribute("user", user);
         System.out.println(user);
         System.out.println(principal.getName());
-        return "user/show";
+        return "user/info_for_user";
     }
 }
