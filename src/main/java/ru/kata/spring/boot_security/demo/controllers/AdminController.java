@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.List;
 
 
-
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -27,11 +26,11 @@ public class AdminController {
     }
 
     @GetMapping("")
-    public String showAllUsers(Model model, @AuthenticationPrincipal User currentUser) {
+    public String showAllUsers(Model model, @AuthenticationPrincipal User currentUser, List<String> role) {
         User newUser = new User();
         model.addAttribute("allUs", userService.getAllUsers());
         model.addAttribute("currentUser", currentUser);
-        model.addAttribute("rolesList", userService.getSetOfRoles());
+        model.addAttribute("rolesList", userService.findRolesByName(role));
         model.addAttribute("newUser", newUser);
         return "all_users";
     }
@@ -39,22 +38,21 @@ public class AdminController {
     @PostMapping("/create")
     public String createUser(@ModelAttribute("newUser") User user, @RequestParam(value = "role") String role) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(userService.getSetOfRoles(Collections.singletonList(role)));
+        user.setRoles(userService.findRolesByName(Collections.singletonList(role)));
         userService.saveUser(user);
         return "redirect:/admin";
     }
 
     @PostMapping("/update")
     public String updateUser(@ModelAttribute("user") User user, @RequestParam(value = "role") String role) {
-        user.setRoles(userService.getSetOfRoles(Collections.singletonList(role)));
-        userService.updateUser(user);
+        user.setRoles(userService.findRolesByName(Collections.singletonList(role)));
+        userService.update(user);
         return "redirect:/admin";
     }
 
     @DeleteMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
-        userService.removeUser(id);
+        userService.deleteUserById(id);
         return "redirect:/admin";
     }
 }
-

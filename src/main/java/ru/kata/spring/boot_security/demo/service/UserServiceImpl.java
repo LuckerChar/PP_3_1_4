@@ -1,48 +1,98 @@
 package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
-import java.util.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserDetailsService, UserService {
+
     private final UserRepository userRepository;
+
     private final RoleRepository roleRepository;
 
+    private final PasswordEncoder bCryptPasswordEncoder;
+
+    @PersistenceContext
+    EntityManager entityManager;
+
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, @Lazy PasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    @Transactional
     @Override
-    public void saveUser(User user) {
-        if (userRepository.findByUsername(user.getEmail()) != null) {
-            throw new RuntimeException();
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public List<Role> getSetOfRoles(List<String> role) {
+        return null;
+    }
+
+    @Override
+    public User findByEmail(String name) {
+        return null;
+    }
+
+    public List<Role> getAllRoles() {
+        return roleRepository.findAll();
+    }
+
+    @Override
+    public Serializable saveUser(User user) {
+        User userFromDB = userRepository.findByUsername(user.getUsername());
+        if (userFromDB != null) {
+            return false;
         }
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+        return user;
     }
+
 
     @Transactional
     @Override
-    public void updateUser(User user) {
+    public void update(User user) {
         userRepository.save(user);
+//        entityManager.merge(user);
     }
 
     @Override
     public User getUser(long id) {
+        return null;
+    }
+
+    @Override
+    public void deleteUserById(long id) {
+
+    }
+
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    public User findById(Long id) {
         User user = null;
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
@@ -51,44 +101,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return user;
     }
 
-    @Transactional
     @Override
-    public void removeUser(long id) {
-        userRepository.deleteById(id);
-    }
-
-    @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
-
-    public List<Role> getAllRoles() {
-        return roleRepository.findAll();
-    }
-
-
-    @Override
-    public List<Role> getSetOfRoles(List<String> roleName) {
-        List<Role> roles = new ArrayList<>();
-        for (Role role : getAllRoles()) {
-            if (roleName.contains(role.getName()))
-                roles.add(role);
+    public List<Role> findRolesByName(List<String> rolesId) {
+        List<Role> roleSet = new ArrayList<>();
+        for (String id : rolesId) {
+            roleSet.add(roleRepository.getRoleById(Long.parseLong(id)));
         }
-        return roles;
+        return roleSet;
     }
 
     @Override
-    @Transactional
-    public User findByEmail(String email) {
-        return userRepository.findByUsername(email);
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(email);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException("USER NF");
+            throw new UsernameNotFoundException("User not found");
         }
         return user;
     }
+
 }

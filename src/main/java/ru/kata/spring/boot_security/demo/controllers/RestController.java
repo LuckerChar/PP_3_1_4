@@ -52,7 +52,7 @@ public class RestController {
 
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
-        userService.removeUser(id);
+        userService.deleteUserById(id);
         return "OK";
     }
 }
