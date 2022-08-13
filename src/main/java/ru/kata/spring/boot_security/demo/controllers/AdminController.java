@@ -41,14 +41,14 @@ public class AdminController {
     @PostMapping("/create")
     public String createUser(@ModelAttribute("newUser") User user, @RequestParam(value = "role") List<String> role) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(userService.getSetOfRoles(Collections.singletonList(role)));
+        user.setRoles(userService.getSetOfRoles(role));
         userService.saveUser(user);
         return "redirect:/admin";
     }
 
     @PostMapping("/update")
     public String updateUser(@ModelAttribute("user") User user, @RequestParam(value = "role") List<String> role) {
-        user.setRoles(userService.getSetOfRoles(Collections.singletonList(role)));
+        user.setRoles(userService.getSetOfRoles(role));
         userService.updateUser(user);
         return "redirect:/admin";
     }
