@@ -12,51 +12,80 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
 @Entity
-@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
+@Table(name = "users")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private long id;
 
-    @Column(name = "firstName")
-    private String firstName;
+    @Column(name = "username")
+    private String username;
 
-    @Column(name = "lastName")
-    private String lastName;
+    @Column(name = "surname")
+    private String surname;
 
     @Column(name = "age")
-    private byte age;
+    private int age;
 
-    @Email (message = "эта почта уже юзается!")
-    @Column(name = "email", unique = true)
-    @Size(min = 3, max = 50, message = "min 3, max 50")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password")
+    @Column(nullable = false)
     private String password;
 
+    @Transient
+    private String passwordConfirm;
+
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     @Fetch(FetchMode.JOIN)
-    private Collection<Role> roles;
+    private List<Role> roles;
+
+//    public User() {
+//    }
+
+    public User(String username, String surname, int age, String email, String password, List<Role> roles) {
+        this.password = password;
+        this.username = username;
+        this.surname = surname;
+        this.age = age;
+        this.email = email;
+        this.roles = roles;
+    }
+
+    public User(String username, String surname, int age, String email, String password) {
+        this.password = password;
+        this.username = username;
+        this.surname = surname;
+        this.age = age;
+        this.email = email;
+    }
+
+    public String getRolesString() {
+        StringBuilder str = new StringBuilder();
+        for (Role role : roles) {
+            str.append(role + " ");
+        }
+        return str.toString();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return getRoles();
     }
 
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
-
 
     @Override
     public boolean isAccountNonExpired() {

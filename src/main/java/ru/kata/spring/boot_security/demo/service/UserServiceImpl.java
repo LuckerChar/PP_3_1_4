@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Transactional
     @Override
     public void saveUser(User user) {
-        if (userRepository.findByEmail(user.getEmail()) != null) {
+        if (userRepository.findByUsername(user.getEmail()) != null) {
             throw new RuntimeException();
         }
         userRepository.save(user);
@@ -80,12 +80,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return userRepository.findByUsername(email);
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByUsername(email);
         if (user == null) {
             throw new UsernameNotFoundException("USER NF");
         }

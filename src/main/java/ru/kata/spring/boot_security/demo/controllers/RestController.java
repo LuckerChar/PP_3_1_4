@@ -35,13 +35,7 @@ public class RestController {
     @PostMapping()
     public UserFormCreateApi createNewUser(@RequestBody UserFormCreateApi user) {
 
-        User newUser = User.builder()
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .email(user.getEmail())
-                .age(user.getAge())
-                .password(user.getPassword())
-                .build();
+        User newUser = User.builder().username(user.getUsername()).surname(user.getSurname()).email(user.getEmail()).age(user.getAge()).password(user.getPassword()).build();
 
         newUser.setRoles(userService.getSetOfRoles(Collections.singletonList(user.getRoles())));
         userService.saveUser(newUser);
@@ -50,18 +44,12 @@ public class RestController {
 
     @PutMapping
     public UserFormCreateApi updateUser(@RequestBody UserFormCreateApi user) {
-        User newUser = User.builder()
-                .id(user.getId())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .email(user.getEmail())
-                .age(user.getAge())
-                .password(user.getPassword())
-                .build();
+        User newUser = User.builder().id(user.getId()).username(user.getUsername()).surname(user.getSurname()).email(user.getEmail()).age(user.getAge()).password(user.getPassword()).build();
         newUser.setRoles(userService.getSetOfRoles(Collections.singletonList(user.getRoles())));
         userService.updateUser(newUser);
         return user;
     }
+
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.removeUser(id);

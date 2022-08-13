@@ -9,7 +9,4 @@ import java.util.Collection;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
-    default Role getRoleById(long id) {
-        return this.getById(id);
     }
-}

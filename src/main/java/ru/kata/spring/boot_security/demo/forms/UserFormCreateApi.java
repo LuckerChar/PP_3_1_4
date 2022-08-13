@@ -10,10 +10,10 @@ import lombok.*;
 @Builder
 public class UserFormCreateApi {
     private long id;
-    private String firstName;
-    private String lastName;
+    private String username;
+    private String surname;
     private String email;
-    private Byte age;
+    private Integer age;
     private String password;
     private String roles;
 }
