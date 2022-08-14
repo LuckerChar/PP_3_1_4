@@ -1,4 +1,3 @@
-
 // show info in modal
 
 const editModal = document.getElementById('editModal')

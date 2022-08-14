@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ public class AdminController {
     private final UserService userService;
     private final PasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
     public AdminController(UserService userService, PasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -32,7 +34,7 @@ public class AdminController {
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("rolesList", userService.findRolesByName(role));
         model.addAttribute("newUser", newUser);
-        return "all_users";
+        return "admin/all_users";
     }
 
     @PostMapping("/create")

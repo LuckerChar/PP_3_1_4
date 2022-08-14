@@ -15,7 +15,6 @@ import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -45,29 +44,19 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return userRepository.findAll();
     }
 
-    @Override
-    public List<Role> getSetOfRoles(List<String> role) {
-        return null;
-    }
 
+//    public List<Role> getAllRoles() {
+//        return roleRepository.findAll();
+//    }
+    @Transactional
     @Override
-    public User findByEmail(String name) {
-        return null;
-    }
-
-    public List<Role> getAllRoles() {
-        return roleRepository.findAll();
-    }
-
-    @Override
-    public Serializable saveUser(User user) {
+    public void saveUser(User user) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
         if (userFromDB != null) {
-            return false;
+            return;
         }
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-        return user;
     }
 
 
@@ -85,13 +74,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public void deleteUserById(long id) {
-
-    }
-
-    public void deleteUserById(Long id) {
         userRepository.deleteById(id);
     }
-
+    @Override
     public User findById(Long id) {
         User user = null;
         Optional<User> optionalUser = userRepository.findById(id);

@@ -1,19 +1,14 @@
 package ru.kata.spring.boot_security.demo.models;
 
-
-import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.validation.annotation.Validated;
-
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -44,13 +39,13 @@ public class User implements UserDetails {
     @Transient
     private String passwordConfirm;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    @Fetch(FetchMode.JOIN)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     private List<Role> roles;
-
-//    public User() {
-//    }
 
     public User(String username, String surname, int age, String email, String password, List<Role> roles) {
         this.password = password;

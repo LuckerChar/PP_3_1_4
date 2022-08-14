@@ -1,5 +1,3 @@
-
-
 //  вывод в таблицу
 async function getUsers() {
 
