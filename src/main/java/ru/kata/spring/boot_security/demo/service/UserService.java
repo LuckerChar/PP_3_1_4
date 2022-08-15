@@ -21,4 +21,6 @@ public interface UserService {
 
     List<Role> findRolesByName(List<String> role);
 
+    public List<Role> getAllRoles();
+
 }

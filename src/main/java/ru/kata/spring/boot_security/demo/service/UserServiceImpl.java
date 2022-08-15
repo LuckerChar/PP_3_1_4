@@ -29,8 +29,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     private final PasswordEncoder bCryptPasswordEncoder;
 
-    @PersistenceContext
-    EntityManager entityManager;
+//    @PersistenceContext
+//    EntityManager entityManager;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, @Lazy PasswordEncoder bCryptPasswordEncoder) {
@@ -44,10 +44,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return userRepository.findAll();
     }
 
-
-//    public List<Role> getAllRoles() {
-//        return roleRepository.findAll();
-//    }
+    @Override
+    public List<Role> getAllRoles() {
+        return roleRepository.findAll();
+    }
     @Transactional
     @Override
     public void saveUser(User user) {

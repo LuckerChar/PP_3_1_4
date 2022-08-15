@@ -28,11 +28,11 @@ public class AdminController {
     }
 
     @GetMapping("")
-    public String showAllUsers(Model model, @AuthenticationPrincipal User currentUser, List<String> role) {
+    public String showAllUsers(Model model, @AuthenticationPrincipal User currentUser) {
         User newUser = new User();
         model.addAttribute("allUs", userService.getAllUsers());
         model.addAttribute("currentUser", currentUser);
-        model.addAttribute("rolesList", userService.findRolesByName(role));
+        model.addAttribute("rolesList", userService.getAllRoles());
         model.addAttribute("newUser", newUser);
         return "admin/all_users";
     }
