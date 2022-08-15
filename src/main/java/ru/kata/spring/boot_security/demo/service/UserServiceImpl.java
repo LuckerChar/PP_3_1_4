@@ -29,8 +29,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     private final PasswordEncoder bCryptPasswordEncoder;
 
-//    @PersistenceContext
-//    EntityManager entityManager;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, @Lazy PasswordEncoder bCryptPasswordEncoder) {
@@ -64,7 +62,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public void update(User user) {
         userRepository.save(user);
-//        entityManager.merge(user);
     }
 
     @Override
@@ -87,12 +84,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public List<Role> findRolesByName(List<String> rolesId) {
-        List<Role> roleSet = new ArrayList<>();
-        for (String id : rolesId) {
-            roleSet.add(roleRepository.getRoleById(Long.parseLong(id)));
+    public List<Role> findRolesByName(List<String> roleName) {
+        List<Role> roles = new ArrayList<>();
+        for (String id : roleName) {
+            roles.add(roleRepository.getRoleById(Long.parseLong(id)));
         }
-        return roleSet;
+        return roles;
     }
 
     @Override

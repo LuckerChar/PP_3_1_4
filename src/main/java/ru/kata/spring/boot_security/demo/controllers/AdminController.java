@@ -38,16 +38,16 @@ public class AdminController {
     }
 
     @PostMapping("/create")
-    public String createUser(@ModelAttribute("newUser") User user, @RequestParam(value = "role") String role) {
+    public String createUser(@ModelAttribute("newUser") User user, @RequestParam(value = "role") List<String> role) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(userService.findRolesByName(Collections.singletonList(role)));
+        user.setRoles(userService.findRolesByName(role));
         userService.saveUser(user);
         return "redirect:/admin";
     }
 
     @PostMapping("/update")
-    public String updateUser(@ModelAttribute("user") User user, @RequestParam(value = "role") String role) {
-        user.setRoles(userService.findRolesByName(Collections.singletonList(role)));
+    public String updateUser(@ModelAttribute("user") User user, @RequestParam(value = "role") List<String> role) {
+        user.setRoles(userService.findRolesByName(role));
         userService.update(user);
         return "redirect:/admin";
     }

@@ -19,7 +19,7 @@ public interface UserService {
 
     User findById(Long id);
 
-    List<Role> findRolesByName(List<String> role);
+    List<Role> findRolesByName(List<String> roleName);
 
     public List<Role> getAllRoles();
 
