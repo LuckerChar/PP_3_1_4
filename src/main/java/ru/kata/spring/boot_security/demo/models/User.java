@@ -80,6 +80,7 @@ public class User implements UserDetails {
         return getRoles();
     }
 
+
     @Override
     public String getUsername() {
         return username;
