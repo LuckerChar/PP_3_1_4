@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.forms.UserFormCreateApi;
+import ru.kata.spring.boot_security.demo.DTOuser.UserFormCreateApi;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
@@ -31,7 +31,7 @@ public class MyRestController {
 
     @GetMapping("/{id}")
     public User getOneUser(@PathVariable("id") Long id) {
-        return userService.getUser(id);
+        return userService.findById(id);
     }
 
     @PostMapping()

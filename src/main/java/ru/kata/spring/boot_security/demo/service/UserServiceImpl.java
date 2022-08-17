@@ -12,8 +12,6 @@ import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,11 +60,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public void update(User user) {
         userRepository.save(user);
-    }
-
-    @Override
-    public User getUser(long id) {
-        return null;
     }
 
     @Override

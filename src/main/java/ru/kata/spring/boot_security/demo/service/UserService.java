@@ -11,8 +11,6 @@ public interface UserService {
 
     void update(User user);
 
-    User getUser(long id);
-
     void deleteUserById(long id);
 
     List<User> getAllUsers();
@@ -21,6 +19,6 @@ public interface UserService {
 
     List<Role> findRolesByName(List<String> roleName);
 
-    public List<Role> getAllRoles();
+    List<Role> getAllRoles();
 
 }
