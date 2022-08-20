@@ -23,7 +23,7 @@ public class MyRestController {
     }
 
 
-    @GetMapping("")
+    @GetMapping("/admin")
     public ResponseEntity<List<User>> getAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
 
@@ -36,7 +36,6 @@ public class MyRestController {
 
     @PostMapping()
     public UserFormCreateApi createNewUser(@RequestBody UserFormCreateApi user) {
-
         User newUser = User.builder()
                 .username(user.getUsername())
                 .surname(user.getSurname())
@@ -65,7 +64,7 @@ public class MyRestController {
         return user;
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteUserById(id);
         return "OK";

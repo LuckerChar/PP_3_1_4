@@ -35,12 +35,12 @@
 
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
-        <div>
-            <span class="navbar-text text-white font-weight-bold"  th:text="${currentUser.getEmail()}"></span>
-            <span class="navbar-text text-white">with roles</span>
-            <span class="navbar-text text-white" th:text="${currentUser.getRolesString()}"></span>
-        </div>
-        <form th:action="@{/logout}" method="post">
+<!--        <div>-->
+<!--            <span class="navbar-text text-white font-weight-bold"  th:text="${currentUser.getEmail()}"></span>-->
+<!--            <span class="navbar-text text-white">with roles</span>-->
+<!--            <span class="navbar-text text-white" th:text="${currentUser.getRolesString()}"></span>-->
+<!--        </div>-->
+        <form action="/logout" method="post">
             <button type="submit" class="btn btn-dark">Logout</button>
         </form>
     </div>
@@ -103,23 +103,8 @@
                                     <th>Delete</th>
                                 </tr>
                                 </thead>
-                                <tbody  id="data">
+                                <tbody  id="allUsersTableBody">
 
-                                <!--                                <tr th:each="user : ${allUs}">-->
-                                <!--                                    <td th:utext="${user.id}"></td>-->
-                                <!--                                    <td th:utext="${user.username}"></td>-->
-                                <!--                                    <td th:utext="${user.surname}"></td>-->
-                                <!--                                    <td th:utext="${user.age}"></td>-->
-                                <!--                                    <td th:utext="${user.email}"></td>-->
-                                <!--                                    <td th:utext="${user.getRolesString()}"></td>-->
-                                <!--                                    <td>-->
-                                <!--                                        <button type="button" class="btn btn-info" style="color: white" data-toggle="modal" th:data-target="${'#edit' + user.id}">Edit</button>-->
-                                <!--                                    </td>-->
-                                <!--                                    <td>-->
-                                <!--                                        <button type="button" class="btn btn-danger" style="color: white" data-toggle="modal" th:data-target="${'#delete' + user.id}">Delete</button>-->
-                                <!--                                    </td>-->
-
-                                <!--                                </tr>-->
                                 </tbody>
                             </table>
                         </div>
@@ -178,10 +163,8 @@
                                             <strong><label for="role">Role</label></strong>
                                             <select multiple class="custom-select w-100"
                                                     size="2" id="role" name="role">
-                                                <option
-                                                        th:each="role : ${rolesList}"
-                                                        th:text="${role.getName()}"
-                                                        th:value="${role.id}">
+                                                <option>
+                                                    //todo
                                                 </option>
                                             </select>
                                         </div>
@@ -237,10 +220,8 @@
                                             <strong><label for="editRole">Role</label></strong>
                                             <select multiple class="custom-select w-100"
                                                     size="2" id="editRole" name="role">
-                                                <option
-                                                        th:each="role : ${rolesList}"
-                                                        th:text="${role.getName()}"
-                                                        th:value="${role.id}">
+                                                <option>
+                                                    //todo
                                                 </option>
                                             </select>
                                         </div>
@@ -269,7 +250,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form style="text-align: center; font-weight:bold" class="deleteModalForm">
+                            <form id="deleteUserForm" style="text-align: center; font-weight:bold" class="deleteModalForm">
                                 <div class="form-group col-8 container-sm bg-white justify-content-center">
                                     <div class="modal-body">
                                         <div class="form-group">
@@ -296,10 +277,8 @@
                                             <strong><label for="delRole">Role</label></strong>
                                             <select multiple class="custom-select w-100"
                                                     size="2" id="delRole" name="role" disabled>
-                                                <option
-                                                        th:each="role : ${rolesList}"
-                                                        th:text="${role.getName()}"
-                                                        th:value="${role.name}">
+                                                <option>
+                                                    //todo
                                                 </option>
                                             </select>
                                         </div>
@@ -320,12 +299,12 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" th:src="@{getUsers.js}"></script>
-<script type="text/javascript" th:src="@{createUser.js}"></script>
-<script type="text/javascript" th:src="@{showDataInEditModal.js}"></script>
-<script type="text/javascript" th:src="@{showDataInDeleteModal.js}"></script>
-<script type="text/javascript" th:src="@{editUser.js}"></script>
-<script type="text/javascript" th:src="@{deleteUser.js}"></script>
+<script type="text/javascript" src="/js/getUsers.js"></script>
+<!--<script type="text/javascript" src="../../static/createUser.js"></script>-->
+<!--<script type="text/javascript" src="../../static/showDataInEditModal.js"></script>-->
+<!--<script type="text/javascript" src="../../static/showDataInDeleteModal.js"></script>-->
+<!--<script type="text/javascript" src="../../static/editUser.js"></script>-->
+<!--<script type="text/javascript" src="../../static/deleteUser.js"></script>-->
 
 
 
@@ -343,7 +322,7 @@
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
         crossorigin="anonymous"></script>
 <script>
-    getUsers();
+    getAllUsers();
 </script>
 </body>
 </html>
