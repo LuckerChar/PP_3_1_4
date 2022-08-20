@@ -41,6 +41,8 @@ async function getAllUsers() {
     }
 }
 
+
+//делит
 const formDelete = document.getElementById("deleteUserForm");
 formDelete.addEventListener("submit", e => {
     e.preventDefault();
