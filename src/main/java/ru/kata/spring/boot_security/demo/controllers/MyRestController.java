@@ -30,43 +30,25 @@ public class MyRestController {
     }
 
     @GetMapping("/{id}")
-    public User getOneUser(@PathVariable("id") Long id) {
-        return userService.findById(id);
+    public ResponseEntity<User> getOneUser(@PathVariable long id, @ModelAttribute("user") User user) {
+        return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
     }
 
     @PostMapping()
-    public UserFormCreateApi createNewUser(@RequestBody UserFormCreateApi user) {
-        User newUser = User.builder()
-                .username(user.getUsername())
-                .surname(user.getSurname())
-                .email(user.getEmail())
-                .age(user.getAge())
-                .password(user.getPassword())
-                .build();
-
-        newUser.setRoles(userService.findRolesByName(Collections.singletonList(user.getRoles())));
-        userService.saveUser(newUser);
-        return user;
+    public ResponseEntity<User> createNewUser(@RequestBody User user) {
+        userService.saveUser(user);
+        return new ResponseEntity<> (user, HttpStatus.OK);
     }
 
     @PutMapping
-    public UserFormCreateApi updateUser(@RequestBody UserFormCreateApi user) {
-        User newUser = User.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .surname(user.getSurname())
-                .email(user.getEmail())
-                .age(user.getAge())
-                .password(user.getPassword())
-                .build();
-        newUser.setRoles(userService.findRolesByName(Collections.singletonList(user.getRoles())));
-        userService.update(newUser);
-        return user;
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
+        userService.update(user.getId(), user);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @DeleteMapping("/admin/{id}")
-    public String deleteUser(@PathVariable("id") Long id) {
+    public ResponseEntity<User> deleteUser(@PathVariable long id) {
         userService.deleteUserById(id);
-        return "OK";
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -58,8 +58,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Transactional
     @Override
-    public void update(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+    public void update(long id, User user) {
+        if (user.getPassword() != null) {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        }
         userRepository.save(user);
     }
 
@@ -67,6 +69,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public void deleteUserById(long id) {
         userRepository.deleteById(id);
     }
+
     @Override
     public User findById(Long id) {
         User user = null;

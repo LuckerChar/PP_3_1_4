@@ -1,3 +1,4 @@
+//все юзеры
 async function getAllUsers() {
     const response = await fetch("/api/admin");
     if (response.ok) {
@@ -40,7 +41,6 @@ async function getAllUsers() {
         });
     }
 }
-
 
 //делит
 const formDelete = document.getElementById("deleteUserForm");

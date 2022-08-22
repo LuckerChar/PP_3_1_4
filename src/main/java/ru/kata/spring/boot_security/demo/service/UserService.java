@@ -9,7 +9,7 @@ import java.util.List;
 public interface UserService {
     void saveUser(User user);
 
-    void update(User user);
+    void update(long id, User user);
 
     void deleteUserById(long id);
 
