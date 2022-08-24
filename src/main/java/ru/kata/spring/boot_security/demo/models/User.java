@@ -1,78 +1,161 @@
 package ru.kata.spring.boot_security.demo.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.List;
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@Data
+import java.util.Set;
+
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private long id;
 
-    @Column(name = "username")
-    private String username;
+    @Column
+    private String name;
 
-    @Column(name = "surname")
+    @Column
     private String surname;
 
-    @Column(name = "age")
-    private int age;
+    @Column
+    private byte age;
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column
+    private String username;
+
+    @Column
     private String password;
 
     @Transient
     private String passwordConfirm;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    @Fetch(FetchMode.JOIN)
-    private List<Role> roles;
+    private Set<Role> roles;
 
-    public User(String username, String surname, int age, String email, String password, List<Role> roles) {
+
+    public User() {
+    }
+
+    public User(String name, String surname, String email, byte age, String password) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.age = age;
         this.password = password;
-        this.username = username;
+    }
+
+    public User(long id, String name, String surname, byte age, String email) {
+        this.id = id;
+        this.name = name;
         this.surname = surname;
         this.age = age;
         this.email = email;
+    }
+    public User(long id, String name, String surname, byte age, String email, String password) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(long id, String name, String surname, byte age, String email, String username, String password, String passwordConfirm, Set<Role> roles) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.passwordConfirm = passwordConfirm;
         this.roles = roles;
     }
 
-    public User(String username, String surname, int age, String email, String password) {
-        this.password = password;
-        this.username = username;
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public byte getAge() {
+        return age;
+    }
+
+    public void setAge(byte age) {
         this.age = age;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
         this.email = email;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
     public String getRolesString() {
-        StringBuilder str = new StringBuilder();
-        for (Role role : roles) {
-            str.append(role + " ");
+        StringBuilder sb = new StringBuilder();
+        for (Role role : this.getRoles()) {
+            sb.append(role.getName().split("_")[1] + " ");
         }
-        return str.toString();
+        return sb.toString();
+    }
+
+
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override
@@ -80,6 +163,10 @@ public class User implements UserDetails {
         return getRoles();
     }
 
+    @Override
+    public String getPassword() {
+        return password;
+    }
 
     @Override
     public String getUsername() {

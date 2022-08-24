@@ -10,43 +10,38 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("api/users")
 public class MyRestController {
 
-    private final UserService userService;
-
     @Autowired
-    public MyRestController(UserService userService) {
-        this.userService = userService;
-    }
+    private UserService userService;
 
-
-    @GetMapping("/admin")
-    public ResponseEntity<List<User>> getAllUsers() {
+    @GetMapping()
+    public ResponseEntity<List<User>> allUsers(@ModelAttribute("user") User user) {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
-
     }
-
     @GetMapping("/{id}")
-    public ResponseEntity<User> getOneUser(@PathVariable long id, @ModelAttribute("user") User user) {
-        return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
+    public ResponseEntity<User> getUser(@PathVariable long id, @ModelAttribute("user") User user) {
+        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
 
-    @PostMapping()
-    public ResponseEntity<User> createNewUser(@RequestBody User user) {
-        userService.saveUser(user);
+
+    @PostMapping
+    public ResponseEntity<User> addUser(@RequestBody User user) {
+        userService.addUser(user);
         return new ResponseEntity<> (user, HttpStatus.OK);
     }
 
-    @PutMapping
-    public ResponseEntity<User> updateUser(@RequestBody User user) {
-        userService.update(user.getId(), user);
+    @PutMapping("/{id}")
+    public ResponseEntity<User> changeUser(@RequestBody User user) {
+        userService.updateUser(user.getId(), user);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @DeleteMapping("/admin/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable long id) {
-        userService.deleteUserById(id);
+        userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }
