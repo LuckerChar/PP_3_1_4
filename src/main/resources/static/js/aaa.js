@@ -1,42 +1,74 @@
-async function auth() {
-    let authObj;
 
-    fetch("api/users/").then(res => {
-        res.json().then(
-            user => {
-                authObj = {
-                    id: user.id,
-                    name: user.name,
-                    surname: user.surName,
-                    age: user.age,
-                    username: user.username,
-                    userRoles: ""
-                }
-                user.roles.forEach((role) => {
-                    authObj.userRoles += role.name.substring(5) + " ";
-                })
-                console.log(authObj);
-                infoBar(authObj);
-                navBar(authObj.userRoles, authObj.username)
-                badContent(user.age)
+// Admin page header
+const adminNavbar = document.getElementById('adminNavbar')
+const activeAdminUrl = 'http://localhost:8080/admin'
+let activeAdminId
 
-            }
-        )
+
+fetch(activeAdminUrl)
+    .then(res => res.json())
+    .then(data => {
+        adminNavbar.innerHTML = `${data.email} with roles: ${data.roles}`
+        activeAdminId = `${data.id}`
     })
+
+// User page header
+const userNavbar = document.getElementById('userNavbar')
+const activeUserUrl = 'http://localhost:8080/user'
+fetch(activeUserUrl)
+    .then(res => res.json())
+    .then(data => {
+        userNavbar.innerHTML = `${data.email} with roles: ${data.roles}`
+    })
+
+showUserPage()
+
+// Listing all users function
+let usersTableOutput = ''
+const listAllUsers = (users) => {
+    users.forEach(user => {
+        usersTableOutput += `
+                        <tr>
+                            <td>${user.id}</td>
+                            <td>${user.username}</td>
+                            <td>${user.surname}</td>
+                            <td>${user.age}</td>
+                            <td>${user.email}</td>
+                            <td>${user.roles}</td>                            
+                            <td><button type="button" class="btn btn-primary" data-toggle="modal" 
+                                        data-target="#editModal" id="editButton" data-uid=${user.id}>Edit</button></td>
+                            <td><button type="button" class="btn btn-danger" data-toggle="modal" 
+                                        data-target="#deleteModal" id="deleteButton" data-uid=${user.id}>Delete</button></td>
+                        </tr>`
+    })
+    usersTable.innerHTML = usersTableOutput
 }
 
-function navBar(roles, email) {
-    console.log(roles, email)
-    const placement = document.getElementById("navBar");
-    const element = document.createElement("div");
-    element.innerHTML = `
-            <b class="navbar-brand"> ${email} </b>
-            <a class="navbar-brand" href="#"> with roles:</a>
-            <a class="navbar-brand" href="#" > ${roles}</a>
-                        `
-    console.log(roles, email)
-    placement.append(element)
+// Listing all users on admin page
+const usersTable = document.getElementById("usersTablePlacement")
+const usersUrl = 'http://localhost:8080/api/users'
+fetch(usersUrl)
+    .then(res => res.json())
+    .then(data => listAllUsers(data))
 
+// Showing user page
+function showUserPage() {
+    const userInfo = document.getElementById('user-info')
+    let userInfoOutput
+    fetch(activeUserUrl)
+        .then(res => res.json())
+        .then(data => {
+            userInfoOutput = `
+            <tr>
+                <td>${data.id}</td>
+                <td>${data.username}</td>
+                <td>${data.surname}</td>
+                <td>${data.age}</td>
+                <td>${data.email}</td>
+                <td>${data.roles}</td>                  
+            </tr>`
+            userInfo.innerHTML = userInfoOutput
+        })
 }
 
 
