@@ -26,7 +26,7 @@
 <nav class="navbar navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
-      <th th:text="${principal.getEmail()}"></th> with roles: <td th:text="${principal.getRolesString()}"></td>
+<!--      <th th:text="${principal.getEmail()}"></th> with roles: <td th:text="${principal.getRolesString()}"></td>-->
     </a>
     <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
       <li class="nav-item">
@@ -136,7 +136,7 @@
                 </div>
                 <div class="row mb-3">
                   <label for="password" class="form-label text-center"><b>Password</b></label>
-                  <input type="text" class="form-control" name="password" id="password" placeholder="Password" required>
+                  <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
                 </div>
                 <div class="row mb-3">
                   <label for="rolesId" class="form-label text-center"><b>Role</b></label>
