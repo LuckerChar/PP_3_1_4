@@ -23,11 +23,13 @@ public class UserDaoImpl implements UserDao {
         TypedQuery<User> query = entityManager.createQuery(jpql, User.class);
         return query.getResultList();
     }
+
     public List<Role> getAllRoles() {
         String jpql = "from Role";
         TypedQuery<Role> query = entityManager.createQuery(jpql, Role.class);
         return query.getResultList();
     }
+
     public List<String> getAllEmails() {
         List<String> emails = new ArrayList<>();
         getAllUsers().forEach(user -> emails.add(user.getEmail()));
@@ -35,11 +37,11 @@ public class UserDaoImpl implements UserDao {
     }
 
 
-
     public void saveUser(User user) {
         entityManager.persist(user);
 
     }
+
     public void saveRole(Role role) {
         entityManager.persist(role);
 
