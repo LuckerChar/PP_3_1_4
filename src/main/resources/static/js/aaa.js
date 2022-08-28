@@ -71,7 +71,6 @@
 //         })
 // }
 
-//TODO PRINCIPAL;
 async function auth() {
     let authObj;
 
