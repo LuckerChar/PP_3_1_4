@@ -75,7 +75,7 @@
 async function auth() {
     let authObj;
 
-    fetch("api/admin/auth").then(res => {
+    fetch("api/users/auth").then(res => {
         res.json().then(
             user => {
                 authObj = {
@@ -83,7 +83,7 @@ async function auth() {
                     name: user.name,
                     surname: user.surname,
                     age: user.age,
-                    username: user.username,
+                    email: user.email,
                     userRoles: ""
                 }
                 user.roles.forEach((role) => {
@@ -91,7 +91,7 @@ async function auth() {
                 })
                 console.log(authObj);
                 infoBar(authObj);
-                navBar(authObj.userRoles, authObj.username)
+                navBar(authObj.userRoles, authObj.email)
 
             }
         )
@@ -108,7 +108,7 @@ function infoBar(obj) {
     <td>${obj.name}</td>
     <td>${obj.surname}</td>
     <td>${obj.age}</td>
-    <td>${obj.username}</td>
+    <td>${obj.email}</td>
     <td>${obj.userRoles}</td>
     `
 }
